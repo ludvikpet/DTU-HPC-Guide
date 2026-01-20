@@ -8,7 +8,7 @@ If you directly use the code provided, please cite us.
 
 If you use the guide information, please remember to cite the [DTU DCC](https://www.hpc.dtu.dk/?page_id=4061).
 
-The step-by-step tutorial may be accessed [here](https://ludvikpet.github.io/DTU-HPC-Tutorial/)!
+The step-by-step tutorial may be accessed [here](https://ludvikpet.github.io/DTU-HPC-Guide/)!
 
 
 

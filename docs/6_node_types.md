@@ -21,6 +21,8 @@ In addition, if you're profiling code or report run-times of code in your work, 
 In general, when you can use a compute node then you should, as this is the use which HPC is optimized for. Again, these nodes exist in CPU-only and GPU versions.  
 Available GPU nodes (compute and interactive) are listed [here](https://www.hpc.dtu.dk/?page_id=2759). The next two subsections show how to use interactive and compute nodes.  
 
+> **Application nodes** Are designed to run software and applications interactively, and are not relevant for this guide. 
+
 ## Running a python script on an interactive GPU node
 Assume you have a file ***file.py*** on the HPC cluster. Then you can run the file interactively by following these steps: 
 
@@ -33,7 +35,55 @@ Currently available interactive GPU queues are `sxm2sh`, `voltash` and `a100sh`.
 
 In order to check the current workload of an interactive node, you can start a session on the node and enter ```nvidia-smi```. This will provide terminal output similar to the below: 
 
-![nvidia-smi output](figures/nvidia-smi.png "example output from nvidia-smi on voltash. In this case, notice how only GPU ID 1 is used by two processes, and the processes use up 6608MB out of the 16348MB in total. As a result, GPU 1 is completely idle, and should preferentially be used for your application. This may be specified by forcing your script to run on the specific GPU id.")
+
+```
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI (some version)  Driver Version: (some version)  CUDA Version: (some version) |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Titan X-PCIE-16GB              On  |  <PCI Bus ID 0>        |                    0 |
+| N/A   46C    P0             47W /  250W |    6468MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Titan X-PCIE-16GB              On  |  <PCI Bus ID 1>        |                    0 |
+| N/A   29C    P0             25W /  250W |       4MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A    <process ID>      C   ...some/path                           6152MiB |
+|    0   N/A  N/A    <process ID>      C   ...some/path                            310MiB |
++-----------------------------------------------------------------------------------------+
+
+```
+Here, some information from the output has been redacted for security. 
+??? tip "output interpretation"
+    The key outputs of interest to you are mainly the GPU statistics. In this case above, we see the node has two GPUs, each of the type Titan X. Each is connected using PCIE, and has 16GB of memory. 
+    The GPU with ID 0 is currently running at 47 watts with a temperature of 46 degrees celsius, and is currently using 6468MiB/16384MiB of memory, and thus potentially has resources for your job. Similarly, GPU 1 is unused. 
+    In this case, if you were to run a script, you should run it on GPU 1, because else you may crash or slow down the large process running on GPU 0. If you already know memory requirements of your script, ensure that there actually is space for it on the GPU, as your job else will crash and you may crash others scripts as well. 
+    **Please always favor to run on unoccupied GPUs in order to not disturb other users**.  
+    
+    In order to bind to a specific GPU in an interactive job, you will need to specify the CUDA device in pytorch, e.g.: 
+    
+    ```
+    a = torch.Tensor([1,2,3]).to(torch.device('cuda:1'))
+    ```
+    
+    Our provided script _run-file.sh_ sets CUDA_VISIBLE_DEVICES such that cuda:0 corresponds to the GPU with the most available free memory, and thus when using this you just need to do:
+    
+    ``` 
+    a = torch.Tensor([1,2,3]).to("cuda")
+    ```
+
+    In specific cases, the CUDA version may be important for you to download the correct version of pytorch.  
+
 
 
 ## Running a script on a compute node

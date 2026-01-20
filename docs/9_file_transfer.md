@@ -1,8 +1,13 @@
-You'll likely want to transfer files between your local computer and the cluster at some point. This should never be done using login, interactive or compute nodes. The HPC has transfer server, which is designed for doing this at high speed.
-
+You have two options of sending data to the DTU HPC system; either via. a transfer from your computer, or via. a direct download.
+ 
 **Important**: Please ensure that you only copy data from trusted sources to the DTU server, i.e. datasets provided by your project supervisor or original download links which are associated with peer-reviewed papers from trusted journals, as you may else infect the DTU HPC. 
 
-## **local &rarr; remote**
+
+## Transfer from your computer
+This is the preferred method. Never transfer data using login, interactive or compute nodes; the HPC has a transfer server, which is designed for high speed transfers.
+
+
+#### **local &rarr; remote**
 This can be done using the following command on a local terminal:
 ```
 scp -r path/to/local/data <study-number>@transfer.gbar.dtu.dk:/path/to/your/project
@@ -10,14 +15,17 @@ scp -r path/to/local/data <study-number>@transfer.gbar.dtu.dk:/path/to/your/proj
 Here, *scp* (secure copy) copies the file contents from your machine onto the remote location you've specified. The tag *-r* allows a *recursive* copy, meaning a directory may be copied in its entirety onto the cluster. Importantly, you need to specify the absolute path to the project on the server.
 
 
-## **remote &rarr; local**
+#### **remote &rarr; local**
 This can either be done in a similar way by using a local terminal the opposite way round:
 ```
 scp -r <study-number>@transfer.gbar.dtu.dk:/path/to/your/project/data path/to/local/destination
 ```
 For small files, you may also employ a simpler method. In VS Code, right click the file you want to retrieve from the remote. Here, you'll see a *download* option - this will download the file onto your local machine. This, however, should **never** be done for larger files, as this slows down login nodes for all users.
 
-## **kaggle &rarr; remote**
+## Direct download 
+Please only use this method when you are absolutely sure that you know you are downloading the correct archived file, and only use this method when you **have no other choice**.  
+
+#### **kaggle &rarr; remote**
 If you want to download a dataset from ***kaggle***, e.g. with the URL https://www.kaggle.com/datasets/welovehpc/satellite-images, you may `cd` into your project root, `cd` into a data folder, and then use the command 
 ```
 curl -L -o data.zip
@@ -25,7 +33,7 @@ curl -L -o data.zip
 ```
 
 This will allow you to download directly on the HPC server. Please only do this on interactive nodes.
-## **Some filesharing service &rarr; remote**
+#### **Some filesharing service &rarr; remote**
 The `curl` approach is also useful if you have a download link for an arbitrary filesharing service, and you do not have space to download the dataset onto your own machine; here you would simply curl the download link. This usually works for filesharing services where you are able to get the URL of the file, usually by right-clicking the download button and copying the URL. This, of course, only works for archived files, e.g. *zip*, and similar:
 
 ```
@@ -41,7 +49,7 @@ Each student has a default storage limit of 30GB on the HPC. For bachelor's or m
 
 
 
-## A complete step-by-step example 
+## A complete step-by-step example for file transfer from a local machine
 Assume you have a `zip`-file located in the path ***/home/max/Documents/DTU/my_cool_dataset.zip***, which will unzip into the structure: 
 ```
 my_cool_dataset.zip
