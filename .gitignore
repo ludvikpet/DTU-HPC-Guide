@@ -1,0 +1,10 @@
+# Data and logs
+data/*
+outputs/*
+logs/*
+
+.vscode/*
+
+# Avoid script overrides
+scripts/setup_env.sh
+scripts/run_file.sh

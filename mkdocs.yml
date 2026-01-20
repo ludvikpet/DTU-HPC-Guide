@@ -1,0 +1,56 @@
+# mkdocs.yml
+
+# The name of your site (appears in the header and browser tab)
+site_name: The Hitchhiker's Guide to The HPC
+
+# Optional: a short description for search engines
+site_description: A beginner-friendly guide for the DTU HPC service 
+theme:
+  name: material
+  logo: 'icons/White_RGB.png'
+  
+  palette:
+    primary: custom
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.instant
+    - toc.integrate
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Acessing the cluster: 1_access_cluster.md
+  - VSCode for remote development: 2_vscode_setup.md
+  - Setting up GitHub for collaboration: 3_github_setup.md
+  - Setting up a project on the HPC: 4_project_setup.md
+  - Python environments on the HPC: 5_python_setup.md
+  - Running HPC Python code: 6_node_types.md
+  - Remote debugging: 7_debug.md
+  - Transferring files to and from the cluster: 9_file_transfer.md
+  - Jupyter notebooks on the cluster: 10_jupyter.md
+  - Monitoring machine learning projects: 11_monitoring.md
+  - Best-practices for a successful project: 12_best_practices.md
+
+
+# Markdown extensions for nicer formatting
+markdown_extensions:
+  - toc:
+      permalink: true          # Adds a § link to each heading for easy linking
+  - codehilite                  # Syntax highlighting for code blocks
+  - admonition                  # For notes/warnings/caution boxes
+  - footnotes                   # Optional, if you want footnotes
+  - tables      
+  - pymdownx.details                # Supports Markdown tables
+
+# Extra options
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ludvikpet/DTU-HPC-Tutorial
+

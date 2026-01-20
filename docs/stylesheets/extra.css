@@ -1,0 +1,36 @@
+:root  > * {
+  --md-primary-fg-color:        hsl(0, 100%, 30%);
+  --md-primary-fg-color--light: hsl(0, 80%, 60%);
+  --md-primary-fg-color--dark:  #90030C;
+}
+
+.md-typeset details {
+  border-left-color: var(--md-primary-fg-color);
+}
+
+.md-typeset details > summary {
+  background-color: var(--md-primary-fg-color--light);
+  color: black;
+}
+
+.md-typeset details > summary:hover {
+  /* background-color: var(--md-primary-fg-color); */
+  color: black;
+}
+
+/* Collapsible admonition container */
+.md-typeset .admonition.tip details {
+  border-left-color: var(--md-primary-fg-color);
+}
+
+/* Summary (collapsed header) */
+.md-typeset .admonition.tip details > summary {
+  background-color: var(--md-primary-fg-color--light);
+  color: black;
+}
+
+/* Hover */
+.md-typeset .admonition.tip details > summary:hover {
+  background-color: var(--md-primary-fg-color);
+  color: black;
+}
